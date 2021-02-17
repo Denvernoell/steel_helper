@@ -62,8 +62,8 @@ setup(
     #     # 'Topic :: Utilities',
     # ],
     project_urls={
-        'Documentation': 'https://python-steel-helper.readthedocs.io/',
-        'Changelog': 'https://python-steel-helper.readthedocs.io/en/latest/changelog.html',
+        'Documentation': 'https://steel-helper.readthedocs.io/',
+        'Changelog': 'https://steel-helper.readthedocs.io/en/latest/changelog.html',
         'Issue Tracker': 'https://github.com/denvernoell/python-steel-helper/issues',
     },
     keywords=[
