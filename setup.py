@@ -23,7 +23,7 @@ def read(*names, **kwargs):
 
 setup(
     name='steel_helper',
-    version='version='version='0.0.1''',
+    version='version='version='version='0.0.1'''',
     license='LGPL-3.0-or-later',
     description='Python module to help calculaterequirements for design of steel structures',
     long_description='%s\n%s' % (
