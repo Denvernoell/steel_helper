@@ -23,16 +23,16 @@ def read(*names, **kwargs):
 
 setup(
     name='steel_helper',
-    version='version='version='version='version='version='0.1.0'''''',
+    version='0.1.0',
     license='LGPL-3.0-or-later',
-    description='Python module to help calculaterequirements for design of steel structures',
+    description='Python module to help calculate requirements for design of steel structures',
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
     author='Denver Noell',
     author_email='denvernoell@gmail.com',
-    url='https://github.com/denvernoell/python-steel-helper',
+    url='https://github.com/Denvernoell/steel_helper',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
@@ -64,7 +64,7 @@ setup(
     project_urls={
         'Documentation': 'https://steel-helper.readthedocs.io/',
         'Changelog': 'https://steel-helper.readthedocs.io/en/latest/changelog.html',
-        'Issue Tracker': 'https://github.com/denvernoell/python-steel-helper/issues',
+        'Issue Tracker': 'https://github.com/Denvernoell/steel_helper/issues',
     },
     keywords=[
         # eg: 'keyword1', 'keyword2', 'keyword3',
