@@ -20,7 +20,7 @@ project = 'steel-helper'
 year = '2021'
 author = 'Denver Noell'
 copyright = '{0}, {1}'.format(year, author)
-version = release = 'version = release = 'version = release = '0.0.0'''
+version = release = 'version = release = 'version = release = '0.0.1'''
 
 pygments_style = 'trac'
 templates_path = ['.']
@@ -38,7 +38,7 @@ html_use_smartypants = True
 html_last_updated_fmt = '%b %d, %Y'
 html_split_index = False
 html_sidebars = {
-   '**': ['searchbox.html', 'globaltoc.html', 'sourcelink.html'],
+    '**': ['searchbox.html', 'globaltoc.html', 'sourcelink.html'],
 }
 html_short_title = '%s-%s' % (project, version)
 
