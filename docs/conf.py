@@ -20,7 +20,7 @@ project = 'steel-helper'
 year = '2021'
 author = 'Denver Noell'
 copyright = '{0}, {1}'.format(year, author)
-version = release = 'version = release = 'version = release = 'version = release = '0.0.1''''
+version = release = 'version = release = 'version = release = 'version = release = 'version = release = '0.0.1'''''
 
 pygments_style = 'trac'
 templates_path = ['.']
