@@ -5,13 +5,7 @@ from math import sqrt, pi
 import pint
 
 u = pint.UnitRegistry()
-Q = u.Quantity
-
 u.default_format = "~P.5g"
-
-
-
-
 
 class Equations:
     def __init__(self):
@@ -46,25 +40,26 @@ class Equations:
         for max in self.maxes:
             highs += (max,)
 
+        spacing = 1
         for key, value in self.items.items():
             for i, item in enumerate(value):
                 # print(item)
                 if i == 0:
                     if len(str(item)) > a:
-                        a = len(str(item)) + 2
+                        a = len(str(item)) + spacing
                         # print(l)
                 if i == 1:
                     if len(str(item)) > b:
-                        b = len(str(item)) + 2
+                        b = len(str(item)) + spacing
                 if i == 2:
                     if len(str(item)) > c:
-                        c = len(str(item)) + 2
+                        c = len(str(item)) + spacing
                 if i == 3:
                     if len(str(item)) > d:
-                        d = len(str(item)) + 2
+                        d = len(str(item)) + spacing
                 if i == 4:
                     if len(str(item)) > e:
-                        e = len(str(item)) + 2
+                        e = len(str(item)) + spacing
         # print(a,b,c,d,e)
         a, b, c, d, e = e, a, d, c, b
         for key, value in self.items.items():
@@ -182,7 +177,7 @@ class Load:
                         1.4 * D,
                         f"1.4 * {D}",
                         "1.4 * D",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return 1.4 * D
@@ -194,7 +189,7 @@ class Load:
                         1.2 * D + 1.6 * L + 0.5 * (max(L_r, S, R)),
                         f"1.2 * {D} + 1.6 * {L} + 0.5 * {(max(L_r, S, R))}",
                         "1.2 * D + 1.6 * L + 0.5 * (max(L_r, S, R))",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return 1.2 * D + 1.6 * L + 0.5 * (max(L_r, S, R))
@@ -206,7 +201,7 @@ class Load:
                         1.2 * D + 1.6 * max(L_r, S, R) + max(0.5 * L, 0.5 * W),
                         f"1.2 * {D} + 1.6 * {max(L_r, S, R)} + {max(0.5 * L, 0.5 * W)}",
                         "1.2 * D + 1.6 * max(L_r, S, R) + max(0.5 * L, 0.5 * W)",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
 
@@ -220,7 +215,7 @@ class Load:
                         1.2 * D + 1.0 * W + 1.0 * L + 0.5 * max(L_r, S, R),
                         f"1.2 * {D} + 1.0 * {W} + 1.0 * {L} + 0.5 * {max(L_r, S, R)}",
                         "1.2 * {D} + 1.0 * {W} + 1.0 * {L} + 0.5 * {max(L_r, S, R)}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
 
@@ -233,7 +228,7 @@ class Load:
                         0.9 * D + 1.0 * W,
                         f"0.9 * {D} + 1.0 * {W}",
                         "0.9 * {D} + 1.0 * {W}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 self.myeqns.addline()
@@ -249,7 +244,7 @@ class Load:
                         D,
                         f"{D}",
                         "{D}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return D
@@ -261,7 +256,7 @@ class Load:
                         D + L,
                         f"{D} + {L}" "{D} + {L}",
                         "{D} + {L}" "{D} + {L}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return D + L
@@ -273,7 +268,7 @@ class Load:
                         D + max(L_r, S, R),
                         f"{D} + {max(L_r, S, R)}",
                         "{D} + {max(L_r, S, R)}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return D + max(L_r, S, R)
@@ -285,7 +280,7 @@ class Load:
                         D + 0.75 * L + 0.75 * max(L_r, S, R),
                         f"{D} + 0.75 * {L} + 0.75 * {max(L_r, S, R)}",
                         "{D} + 0.75 * {L} + 0.75 * {max(L_r, S, R)}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return D + 0.75 * L + 0.75 * max(L_r, S, R)
@@ -297,7 +292,7 @@ class Load:
                         D + 0.6 * W,
                         f"{D} + 0.6 * {W}",
                         "{D} + 0.6 * {W}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return D + 0.6 * W
@@ -309,7 +304,7 @@ class Load:
                         D + 0.75 * L + 0.75 * 0.6 * W + 0.75 * max(L_r, S, R),
                         f"{D} + 0.75 * {L} + 0.75 * 0.6 * {W} + 0.75 * {max(L_r, S, R)}",
                         "{D} + 0.75 * {L} + 0.75 * 0.6 * {W} + 0.75 * {max(L_r, S, R)}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return D + 0.75 * L + 0.75 * 0.6 * W + 0.75 * max(L_r, S, R)
@@ -321,7 +316,7 @@ class Load:
                         0.6 * D + 0.6 * W,
                         f"0.6 * {D} + 0.6 * {W}",
                         "0.6 * {D} + 0.6 * {W}",
-                        "ASCE 7 Load Combination",
+                        "ASCE 7",
                     ],
                 )
                 return 0.6 * D + 0.6 * W
@@ -377,9 +372,9 @@ def convert_to_float(frac_str):
 
 
 class Member:
-    shapes = pd.read_excel("aisc-shapes-14.xlsx", sheet_name="Database v15.0H")
-    df = shapes
     def __init__(self, designation):
+        shapes = pd.read_excel("aisc-shapes-14.xlsx", sheet_name="Database v15.0H")
+        df = shapes
         # Default is A36
         self.F_y = 36 * u.kips / (u.inch ** 2)
         self.F_u = 58 * u.kips / (u.inch ** 2)
