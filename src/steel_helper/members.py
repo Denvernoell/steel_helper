@@ -243,7 +243,7 @@ class Load:
                         "ASD Combo " + str(combo),
                         D,
                         f"{D}",
-                        "{D}",
+                        "D",
                         "ASCE 7",
                     ],
                 )
@@ -254,8 +254,8 @@ class Load:
                     [
                         "ASD Combo " + str(combo),
                         D + L,
-                        f"{D} + {L}" "{D} + {L}",
-                        "{D} + {L}" "{D} + {L}",
+                        f"{D} + {L}",
+                        "D + L",
                         "ASCE 7",
                     ],
                 )
@@ -267,7 +267,7 @@ class Load:
                         "ASD Combo " + str(combo),
                         D + max(L_r, S, R),
                         f"{D} + {max(L_r, S, R)}",
-                        "{D} + {max(L_r, S, R)}",
+                        "D + max(L_r, S, R)",
                         "ASCE 7",
                     ],
                 )
@@ -279,7 +279,7 @@ class Load:
                         "ASD Combo " + str(combo),
                         D + 0.75 * L + 0.75 * max(L_r, S, R),
                         f"{D} + 0.75 * {L} + 0.75 * {max(L_r, S, R)}",
-                        "{D} + 0.75 * {L} + 0.75 * {max(L_r, S, R)}",
+                        "D + 0.75 * L + 0.75 * max(L_r, S, R)",
                         "ASCE 7",
                     ],
                 )
@@ -291,7 +291,7 @@ class Load:
                         "ASD Combo " + str(combo),
                         D + 0.6 * W,
                         f"{D} + 0.6 * {W}",
-                        "{D} + 0.6 * {W}",
+                        "D + 0.6 * W",
                         "ASCE 7",
                     ],
                 )
@@ -303,7 +303,7 @@ class Load:
                         "ASD Combo " + str(combo),
                         D + 0.75 * L + 0.75 * 0.6 * W + 0.75 * max(L_r, S, R),
                         f"{D} + 0.75 * {L} + 0.75 * 0.6 * {W} + 0.75 * {max(L_r, S, R)}",
-                        "{D} + 0.75 * {L} + 0.75 * 0.6 * {W} + 0.75 * {max(L_r, S, R)}",
+                        "D + 0.75 * L + 0.75 * 0.6 * W + 0.75 * max(L_r, S, R)",
                         "ASCE 7",
                     ],
                 )
@@ -315,7 +315,7 @@ class Load:
                         "ASD Combo " + str(combo),
                         0.6 * D + 0.6 * W,
                         f"0.6 * {D} + 0.6 * {W}",
-                        "0.6 * {D} + 0.6 * {W}",
+                        "0.6 * D + 0.6 * W",
                         "ASCE 7",
                     ],
                 )
