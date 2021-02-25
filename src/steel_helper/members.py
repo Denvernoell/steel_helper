@@ -33,13 +33,10 @@ class Equations:
         for key, value in self.items.items():
             print(key)
 
-    def displayfancy(self, *highs):
+    def displayfull(self, *highs):
         a, b, c, d, e = 0, 0, 0, 0, 0
-
-        # maxes = ["P_n", "Slenderness"]
         for max in self.maxes:
             highs += (max,)
-
         spacing = 1
         for key, value in self.items.items():
             for i, item in enumerate(value):
@@ -85,6 +82,61 @@ class Equations:
             except:
                 print(
                     f"{ref:<{a}}  | {variable:<{b}} | {(equation):<{c}} | {(equation_fill):<{d}} | {solution:<{e}}\n{'-' * (a + b + c + d + e + 6)}"
+                )
+            # except:
+            #     print(f"{ref}{variable:<{a}}   {'':<{b}} | {solution:>{c}.3g}")
+        print("\n" * 3)
+
+    def displayans(self, *highs):
+        # only prints Variable(b) and Answer(e)
+        a, b, c, d, e = 0, 0, 0, 0, 0
+        for max in self.maxes:
+            highs += (max,)
+        spacing = 1
+        for key, value in self.items.items():
+            for i, item in enumerate(value):
+                # print(item)
+                if i == 0:
+                    if len(str(item)) > a:
+                        a = len(str(item)) + spacing
+                        # print(l)
+                if i == 1:
+                    if len(str(item)) > b:
+                        b = len(str(item)) + spacing
+                if i == 2:
+                    if len(str(item)) > c:
+                        c = len(str(item)) + spacing
+                if i == 3:
+                    if len(str(item)) > d:
+                        d = len(str(item)) + spacing
+                if i == 4:
+                    if len(str(item)) > e:
+                        e = len(str(item)) + spacing
+        # print(a,b,c,d,e)
+        a, b, c, d, e = e, a, d, c, b
+        for key, value in self.items.items():
+            # if key in ["A_g", "A_n", "A_e"]:
+
+            # Use this to determine keys
+            # print(key)
+            variable = value[0]
+            solution = value[1]
+            equation_fill = value[2]
+            equation = value[3]
+            ref = value[4]
+
+            try:
+                if key in highs:
+                    print(
+                        f"{color.YELLOW}{variable:<{b}} | {solution:>{e}.5g}{color.END}"
+                    )
+                else:
+                    print(
+                        f"{variable:<{b}} | {solution:>{e}.5g}"
+                    )
+            except:
+                print(
+                    f"{variable:<{b}} | {solution:<{e}}\n{'-' * (b + e + 6)}"
                 )
             # except:
             #     print(f"{ref}{variable:<{a}}   {'':<{b}} | {solution:>{c}.3g}")
@@ -214,7 +266,7 @@ class Load:
                         "LRFD Combo " + str(combo),
                         1.2 * D + 1.0 * W + 1.0 * L + 0.5 * max(L_r, S, R),
                         f"1.2 * {D} + 1.0 * {W} + 1.0 * {L} + 0.5 * {max(L_r, S, R)}",
-                        "1.2 * {D} + 1.0 * {W} + 1.0 * {L} + 0.5 * {max(L_r, S, R)}",
+                        "1.2 * D + 1.0 * W + 1.0 * L + 0.5 * max(L_r, S, R)",
                         "ASCE 7",
                     ],
                 )
@@ -227,7 +279,7 @@ class Load:
                         "LRFD Combo " + str(combo),
                         0.9 * D + 1.0 * W,
                         f"0.9 * {D} + 1.0 * {W}",
-                        "0.9 * {D} + 1.0 * {W}",
+                        "0.9 * D + 1.0 * W",
                         "ASCE 7",
                     ],
                 )
@@ -373,8 +425,11 @@ def convert_to_float(frac_str):
 
 class Member:
     def __init__(self, designation):
-        shapes = pd.read_excel("aisc-shapes-14.xlsx", sheet_name="Database v15.0H")
-        df = shapes
+        try:
+            shapes = pd.read_excel("aisc-shapes-14.xlsx", sheet_name="Database v15.0H")
+            df = shapes
+        except:
+            pass
         # Default is A36
         self.F_y = 36 * u.kips / (u.inch ** 2)
         self.F_u = 58 * u.kips / (u.inch ** 2)
