@@ -51,9 +51,9 @@ Overview
 ..     :alt: Supported implementations
 ..     :target: https://pypi.org/project/steel_helper
 
-.. .. |commits-since| image:: https://img.shields.io/github/commits-since/denvernoell/python-steel-helper/v/v/v/v/v/v0.1.2.svg.svg.svg.svg.svg.svg
+.. .. |commits-since| image:: https://img.shields.io/github/commits-since/denvernoell/python-steel-helper/v/v/v/v/v/v0.1.3.svg.svg.svg.svg.svg.svg
 ..     :alt: Commits since latest release
-..     :target: https://github.com/denvernoell/python-steel-helper/compare/v/v/v/v/v/v0.1.2.svg.svg.svg.svg.svg...master
+..     :target: https://github.com/denvernoell/python-steel-helper/compare/v/v/v/v/v/v0.1.3.svg.svg.svg.svg.svg...master
 
 
 
