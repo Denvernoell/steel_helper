@@ -10,8 +10,7 @@ Q = u.Quantity
 u.default_format = "~P.5g"
 
 
-shapes = pd.read_excel("aisc-shapes-14.xlsx", sheet_name="Database v15.0H")
-df = shapes
+
 
 
 class Equations:
@@ -378,6 +377,8 @@ def convert_to_float(frac_str):
 
 
 class Member:
+    shapes = pd.read_excel("aisc-shapes-14.xlsx", sheet_name="Database v15.0H")
+    df = shapes
     def __init__(self, designation):
         # Default is A36
         self.F_y = 36 * u.kips / (u.inch ** 2)
