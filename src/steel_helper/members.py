@@ -397,7 +397,7 @@ class Member:
             init_location = __file__
             print(init_location)
             shapes_location = (
-                init_location.replace("__init__.py", "") + "aisc-shapes-14.xlsx"
+                init_location.replace("members.py", "") + "aisc-shapes-14.xlsx"
             )
             shapes = pd.read_excel(shapes_location, sheet_name="Database v15.0H")
             df = shapes
