@@ -395,7 +395,7 @@ class Member:
         except:
             # Used for module usage (Able to access file downloaded with module)
             init_location = __file__
-            print(init_location)
+            # print(init_location)
             shapes_location = (
                 init_location.replace("members.py", "") + "aisc-shapes-14.xlsx"
             )
@@ -429,7 +429,7 @@ class Member:
 
         # print(designation)
         # Space is necessary
-        designation = re.sub("[^X0-9/ ]", "", designation)
+        designation = re.sub("[^X0-9/. ]", "", designation)
 
         mydimensions = designation.split("X")
         # print(mydimensions)
@@ -454,7 +454,7 @@ class Member:
                     "A_g",
                     self.A_g,
                     f"{self.w_plate} * {self.t_plate}",
-                    "{self.w_plate} * {self.t_plate}",
+                    "w_plate * t_plate",
                     "Gross area",
                 ],
             )
@@ -481,7 +481,7 @@ class Member:
                     "hole_size",
                     self.hole_size,
                     f"{self.bolt_size} + 1 / 8 * u.inch",
-                    "{self.bolt_size} + 1 / 8 * u.inch",
+                    "bolt_size + 1 / 8 * u.inch",
                     "Table J3.3 and b4.36 (16.1-130,16.1-20)",
                 ],
             )
@@ -493,13 +493,28 @@ class Member:
                     "hole_size",
                     self.hole_size,
                     f"{self.bolt_size} + 3 / 16 * u.inch",
-                    "{self.bolt_size} + 3 / 16 * u.inch",
+                    "bolt_size + 3 / 16 * u.inch",
                     "Table J3.3 and b4.36 (16.1-130,16.1-20)",
                 ],
             )
 
+
+
         self.A_hole = self.t_plate * self.hole_size
         self.A_holes = self.A_hole * self.holes
+
+        self.myeqns.additem(
+            "Area of holes",
+            [
+                "Area of holes",
+                self.A_holes,
+                f"{self.t_plate} * {self.hole_size} * {self.holes}",
+                "t_plate * hole_size * holes",
+                "",
+            ],
+        )
+
+
         A_holes = self.A_holes
 
         if len(stagger) > 0:
@@ -526,7 +541,7 @@ class Member:
                     "A_n from stagger",
                     A_n,
                     f"({A_g: .3} - {A_holes: .3}{stagger_equations}) * {load_transfer})",
-                    "({A_g: .3} - {A_holes: .3}{stagger_equations}) * {load_transfer})",
+                    "(A_g - A_holes + stagger_equations) * load_transfer)",
                     "Stagger factor from Eq 3.2",
                 ],
             )
@@ -540,7 +555,7 @@ class Member:
                     "A_n",
                     A_n,
                     f"({A_g: .3} - {A_holes: .3} * {load_transfer})",
-                    "({A_g: .3} - {A_holes: .3} * {load_transfer})",
+                    "(A_g - A_holes * load transfer)",
                     "Net area accounting for load transfer",
                 ],
             )
@@ -587,7 +602,7 @@ class Member:
                 "ASD Rupture strength",
                 P_n_net / 2,
                 f"{P_n_net:.3g} / 2",
-                "{P_n_net:.3g} / 2",
+                "P_n_net / 2",
                 "D2-2",
             ],
         )
@@ -627,7 +642,7 @@ class Member:
                     "U from other",
                     1 - (x_bar / l_plate),
                     f"1 - ({x_bar} / {l_plate})",
-                    "1 - ({x_bar} / {l_plate})",
+                    "1 - (x_bar / l_plate)",
                     "Table D3.1",
                 ],
             )
@@ -655,7 +670,7 @@ class Member:
                     "U from welded member",
                     ((3 * l ** 2) / (3 * l ** 2 + w ** 2)) * (1 - (x / l)),
                     f"(((3*{l}**2)/(3*{l}**2 + {w}**2))*(1 - ({x}/{l})))",
-                    "(((3*{l}**2)/(3*{l}**2 + {w}**2))*(1 - ({x}/{l})))",
+                    "(((3*l**2)/(3*l**2 + w**2))*(1 - (x/l)))",
                     "Table D3.1",
                 ],
             )
@@ -689,7 +704,7 @@ class Member:
                 "A_e",
                 A_e,
                 f"{A_n:.3g} * {effective_factor:.3g}",
-                "{A_n:.3g} * {effective_factor:.3g}",
+                "A_n * effective_factor",
                 "D3-1",
             ],
         )
@@ -703,7 +718,7 @@ class Member:
                 "Nominal strength gross",
                 P_n_gross,
                 f"{F_y:.3} * {A_g:.3}",
-                "{F_y:.3} * {A_g:.3}",
+                "F_y * A_g",
                 "D2-1",
             ],
         )
@@ -717,7 +732,7 @@ class Member:
                 "Nominal strength net",
                 P_n_net,
                 f"{F_u:.3} * {A_e:.3}",
-                "{F_u:.3} * {A_e:.3}",
+                "F_u * A_e",
                 "D2-2",
             ],
         )
@@ -743,7 +758,7 @@ class Member:
                 "Gross area in shear",
                 A_g,
                 f"{x_bolts} * {t_plate}",
-                "{x_bolts} * {t_plate}",
+                "x_bolts * t_plate",
                 "J4-5",
             ],
         )
@@ -763,7 +778,7 @@ class Member:
                 "Net area in shear",
                 A_nv,
                 f"{t_plate} * (({x_bolts}) - ({holes} - 0.5 * {rows}) * ({d_hole}))",
-                "{t_plate} * (({x_bolts}) - ({holes} - 0.5 * {rows}) * ({d_hole}))",
+                "t_plate * ((x_bolts) - (holes - 0.5 * rows) * (d_hole))",
                 "J4-5",
             ],
         )
@@ -773,7 +788,7 @@ class Member:
                 "Net area in tension",
                 A_nt,
                 f"{t_plate} * (({y_bolts}) - (0.5 * {rows}) * ({d_hole}))",
-                "{t_plate} * (({y_bolts}) - (0.5 * {rows}) * ({d_hole}))",
+                "t_plate * ((y_bolts) - (0.5 * rows) * (d_hole))",
                 "J4-5",
             ],
         )
@@ -783,7 +798,7 @@ class Member:
                 "R_n",
                 R_n,
                 f"0.6 * {F_u} * {A_nv:.3g} + {effective_factor} * {F_u} * {A_nt:.3g}",
-                "0.6 * {F_u} * {A_nv:.3g} + {effective_factor} * {F_u} * {A_nt:.3g}",
+                "0.6 * F_u * A_nv + effective_factor * F_u * A_nt",
                 "Eq 3.3",
             ],
         )
@@ -793,7 +808,7 @@ class Member:
                 "R_n_u",
                 R_n_u,
                 f"0.6 * {F_y} * {A_g:.3g} + {effective_factor} * {F_u} * {A_nt:.3g}",
-                "0.6 * {F_y} * {A_g:.3g} + {effective_factor} * {F_u} * {A_nt:.3g}",
+                "0.6 * F_y * A_g + effective_factor * F_u * A_nt",
                 "Eq 3.4",
             ],
         )
@@ -803,7 +818,7 @@ class Member:
                 "nominal_strength",
                 nominal_strength,
                 f"min([{R_n}, {R_n_u}])",
-                "min([{R_n}, {R_n_u}])",
+                "min([R_n, R_n_u])",
                 "D2-1 and D2-2",
             ],
         )
