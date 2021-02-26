@@ -3,6 +3,7 @@ from IPython.display import Math, display, Markdown
 from sympy import latex
 from math import sqrt, pi
 import pint
+import os
 
 u = pint.UnitRegistry()
 u.default_format = "~P.5g"
@@ -393,7 +394,8 @@ class Member:
             df = shapes
         except:
             # Used for module usage (Able to access file downloaded with module)
-            init_location = steel_helper.__file__
+            init_location = __file__
+            print(init_location)
             shapes_location = (
                 init_location.replace("__init__.py", "") + "aisc-shapes-14.xlsx"
             )
