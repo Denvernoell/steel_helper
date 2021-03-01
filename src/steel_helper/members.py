@@ -4,15 +4,18 @@ from sympy import latex
 from math import sqrt, pi
 import pint
 import os
+import re
 
 u = pint.UnitRegistry()
-u.default_format = "~P.5g"
+u.default_format = "~H.5g"
 
 
 class Equations:
     def __init__(self):
         self.items = {"Top": ["Variable", "Answer", "Equation_fill", "Equation", "Ref"]}
         self.maxes = []
+        self.greens = []
+        self.reds = []
 
     def additem(self, value, equation):
         self.items[(value)] = equation
@@ -34,6 +37,121 @@ class Equations:
     def printkeys(self, *highs):
         for key, value in self.items.items():
             print(key)
+
+    def markfull(self, *highs):
+        mymarkdown = ""
+        a, b, c, d, e = 0, 0, 0, 0, 0
+        for max in self.maxes:
+            highs += (max,)
+
+        spacing = 1
+        for key, value in self.items.items():
+            for i, item in enumerate(value):
+                # print(item)
+                if i == 0:
+                    if len(str(item)) > a:
+                        a = len(str(item)) + spacing
+                        # print(l)
+                if i == 1:
+                    if len(str(item)) > b:
+                        b = len(str(item)) + spacing
+                if i == 2:
+                    if len(str(item)) > c:
+                        c = len(str(item)) + spacing
+                if i == 3:
+                    if len(str(item)) > d:
+                        d = len(str(item)) + spacing
+                if i == 4:
+                    if len(str(item)) > e:
+                        e = len(str(item)) + spacing
+        # print(a,b,c,d,e)
+        a, b, c, d, e = e, a, d, c, b
+        for key, value in self.items.items():
+            # if key in ["A_g", "A_n", "A_e"]:
+
+            # Use this to determine keys
+            # print(key)
+            variable = value[0]
+            solution = value[1]
+            equation_fill = value[2]
+            equation = value[3]
+            ref = value[4]
+
+            try:
+                if key in highs:
+                    mymarkdown += f"\n{ref} | <span style='color:blue'>{variable}</span> | {(equation)} | {(equation_fill)} | <span style='color:blue'>{solution:.5g}</span>"
+                elif key in self.reds:
+                    mymarkdown += f"\n{ref} | <span style='color:red'>{variable}</span> | {(equation)} | {(equation_fill)} | <span style='color:red'>{solution:.5g}</span>"
+                elif key in self.greens:
+                    mymarkdown += f"\n{ref} | <span style='color:green'>{variable}</span> | {(equation)} | {(equation_fill)} | <span style='color:green'>{solution:.5g}</span>"
+                else:
+                    mymarkdown += f"\n{ref}  | {variable} | {(equation)} | {(equation_fill)} | {solution:.5g}"
+            except:
+                mymarkdown += (
+                    # f"{ref:<{a}}  | {variable:<{b}} | {(equation):<{c}} | {(equation_fill):<{d}} | {solution:<{e}}\n{'-' * (a + b + c + d + e + 6)}"
+                    f"{ref}  | {variable} | {(equation)} | {(equation_fill)} | {solution}\n:-:|:-:|:-:|:-:|:-:"
+                )
+
+            # except:
+            #     print(f"{ref}{variable:<{a}}   {'':<{b}} | {solution:>{c}.3g}")
+        display(Markdown(mymarkdown))
+        # print(mymarkdown)
+        print("\n" * 3)
+
+    def markans(self, *highs):
+        mymarkdown = ""
+        a, b, c, d, e = 0, 0, 0, 0, 0
+        for max in self.maxes:
+            highs += (max,)
+        spacing = 1
+        for key, value in self.items.items():
+            for i, item in enumerate(value):
+                # print(item)
+                if i == 0:
+                    if len(str(item)) > a:
+                        a = len(str(item)) + spacing
+                        # print(l)
+                if i == 1:
+                    if len(str(item)) > b:
+                        b = len(str(item)) + spacing
+                if i == 2:
+                    if len(str(item)) > c:
+                        c = len(str(item)) + spacing
+                if i == 3:
+                    if len(str(item)) > d:
+                        d = len(str(item)) + spacing
+                if i == 4:
+                    if len(str(item)) > e:
+                        e = len(str(item)) + spacing
+        # print(a,b,c,d,e)
+        a, b, c, d, e = e, a, d, c, b
+        for key, value in self.items.items():
+            # if key in ["A_g", "A_n", "A_e"]:
+
+            # Use this to determine keys
+            # print(key)
+            variable = value[0]
+            solution = value[1]
+            equation_fill = value[2]
+            equation = value[3]
+            ref = value[4]
+
+            try:
+                if key in highs:
+                    mymarkdown += f"\n**{variable}** | **{solution:.5g}**"
+                else:
+                    mymarkdown += f"\n{variable} | {solution:.5g}"
+            except:
+                mymarkdown += (
+                    # f"{ref:<{a}}  | {variable:<{b}} | {(equation):<{c}} | {(equation_fill):<{d}} | {solution:<{e}}\n{'-' * (a + b + c + d + e + 6)}"
+                    f"{variable} | {solution}\n:-:|:-:"
+                )
+
+            # except:
+            #     print(f"{ref}{variable:<{a}}   {'':<{b}} | {solution:>{c}.3g}")
+        display(Markdown(mymarkdown))
+        # print(mymarkdown)
+        print("\n" * 3)
 
     def displayfull(self, *highs):
         a, b, c, d, e = 0, 0, 0, 0, 0
@@ -83,8 +201,10 @@ class Equations:
                     )
             except:
                 print(
-                    f"{ref:<{a}}  | {variable:<{b}} | {(equation):<{c}} | {(equation_fill):<{d}} | {solution:<{e}}\n{'-' * (a + b + c + d + e + 6)}"
+                    # f"{ref:<{a}}  | {variable:<{b}} | {(equation):<{c}} | {(equation_fill):<{d}} | {solution:<{e}}\n{'-' * (a + b + c + d + e + 6)}"
+                    f"{ref:<{a}}  | {variable:<{b}} | {(equation):<{c}} | {(equation_fill):<{d}} | {solution:<{e}}\n{'-'*a}|{'-'*b}|{'-'*c}|{'-'*d}|{'-'*e}"
                 )
+
             # except:
             #     print(f"{ref}{variable:<{a}}   {'':<{b}} | {solution:>{c}.3g}")
         print("\n" * 3)
@@ -135,7 +255,7 @@ class Equations:
                 else:
                     print(f"{variable:<{b}} | {solution:>{e}.5g}")
             except:
-                print(f"{variable:<{b}} | {solution:<{e}}\n{'-' * (b + e + 6)}")
+                print(f"{variable:<{b}} | {solution:<{e}}\n{'-' * b} | {'-'*e}")
             # except:
             #     print(f"{ref}{variable:<{a}}   {'':<{b}} | {solution:>{c}.3g}")
         print("\n" * 3)
@@ -389,77 +509,68 @@ def convert_to_float(frac_str):
 
 class Member:
     def __init__(self, designation):
-        try:
-            shapes = pd.read_excel("aisc-shapes-14.xlsx", sheet_name="Database v15.0H")
-            df = shapes
-        except:
-            # Used for module usage (Able to access file downloaded with module)
-            init_location = __file__
-            # print(init_location)
-            shapes_location = (
-                init_location.replace("members.py", "") + "aisc-shapes-14.xlsx"
-            )
-            shapes = pd.read_excel(shapes_location, sheet_name="Database v15.0H")
-            df = shapes
 
         # Default is A36
         self.F_y = 36 * u.kips / (u.inch ** 2)
         self.F_u = 58 * u.kips / (u.inch ** 2)
         self.E = 29_000 * u.kips / (u.inch ** 2)
         self.myeqns = Equations()
-
-        # Check if plate, put PL
-        # if designation.find('PL') == True:
-        #     designation.
-
-        myedition = shapes["Edition"] == "14th"
-        mydesignation = shapes["Designation"] == designation
-        myshape = shapes.loc[myedition & mydesignation]
-        # This adds all of the attributes from the table as attributes of member
-        for column in myshape.columns:
+        if designation != "none":
             try:
-                exec(f"self.{column} = float(myshape[column])")
-            #                 print(f"'{column}' = {float(myshape[column])}")
+                shapes = pd.read_excel(
+                    "aisc-shapes-14.xlsx", sheet_name="Database v15.0H"
+                )
+                df = shapes
             except:
-                pass
-        # Fix Sha
+                # Used for module usage (Able to access file downloaded with module)
+                init_location = __file__
+                # print(init_location)
+                shapes_location = (
+                    init_location.replace("members.py", "") + "aisc-shapes-14.xlsx"
+                )
+                shapes = pd.read_excel(shapes_location, sheet_name="Database v15.0H")
+                df = shapes
 
-        #
-        import re
+            myedition = shapes["Edition"] == "14th"
+            mydesignation = shapes["Designation"] == designation
+            myshape = shapes.loc[myedition & mydesignation]
+            # This adds all of the attributes from the table as attributes of member
+            for column in myshape.columns:
+                try:
+                    exec(f"self.{column} = float(myshape[column])")
+                #                 print(f"'{column}' = {float(myshape[column])}")
+                except:
+                    pass
 
-        # print(designation)
-        # Space is necessary
-        designation = re.sub("[^X0-9/. ]", "", designation)
+            # print(designation)
+            # Space is necessary
+            designation = re.sub("[^X0-9/. ]", "", designation)
 
-        mydimensions = designation.split("X")
-        # print(mydimensions)
-        # print(convert_to_float(mydimensions[0]))
-        if len(mydimensions) == 3:
-            self.w_plate = convert_to_float(mydimensions[1]) * u.inch
-            self.t_plate = convert_to_float(mydimensions[2]) * u.inch
-        else:
-            self.w_plate = convert_to_float(mydimensions[0]) * u.inch
-            self.t_plate = convert_to_float(mydimensions[1]) * u.inch
+            mydimensions = designation.split("X")
 
-        try:
+            if len(mydimensions) == 3:
+                self.w_plate = convert_to_float(mydimensions[1]) * u.inch
+                self.t_plate = convert_to_float(mydimensions[2]) * u.inch
+            else:
+                self.w_plate = convert_to_float(mydimensions[0]) * u.inch
+                self.t_plate = convert_to_float(mydimensions[1]) * u.inch
 
-            self.A_g = self.A_g * u.inch ** 2
-        except:
-            # if self.A_g == 0:
-            self.A_g = self.w_plate * self.t_plate
-            # print(f"A_g = {self.w_plate} * {self.t_plate}\n\t= {self.A_g}")
-            self.myeqns.additem(
-                "A_g",
-                [
+            try:
+
+                self.A_g = self.A_g * u.inch ** 2
+            except:
+                self.A_g = self.w_plate * self.t_plate
+
+                self.myeqns.additem(
                     "A_g",
-                    self.A_g,
-                    f"{self.w_plate} * {self.t_plate}",
-                    "w_plate * t_plate",
-                    "Gross area",
-                ],
-            )
-        # else:
-        #     self.A_g = A_g * u.inch ** 2
+                    [
+                        "A_g",
+                        self.A_g,
+                        f"{self.w_plate} * {self.t_plate}",
+                        "w_plate * t_plate",
+                        "Gross area",
+                    ],
+                )
 
     def properties(self, F_y, F_u):
         # steel = "A36"
@@ -498,8 +609,6 @@ class Member:
                 ],
             )
 
-
-
         self.A_hole = self.t_plate * self.hole_size
         self.A_holes = self.A_hole * self.holes
 
@@ -513,7 +622,6 @@ class Member:
                 "",
             ],
         )
-
 
         A_holes = self.A_holes
 
@@ -825,32 +933,52 @@ class Member:
 
     # Compression
 
-    def axial_strength(self, L, K):
+    def axial_strength(self, Lx, Kx, Ly, Ky):
 
-        self.L = L * u.foot
-        self.L_cr = K * self.L
+        Lx = Lx * u.foot
+        Ly = Ly * u.foot
+        r_x = self.rx * u.inch
+        r_y = self.ry * u.inch
+        F_y = self.F_y
         E = self.E
         A_g = self.A_g
+        self.slenderness_x = (Kx * Lx.to(u.inch)) / r_x
+        self.slenderness_y = (Ky * Ly.to(u.inch)) / r_y
+        # if Ly != 0 and Ky != 0:
 
-        L = self.L
-
-        self.r_min = min(self.rx, self.ry) * u.inch
-
-        r_min = self.r_min
-
-        F_y = self.F_y
-
-        Slenderness = (L.to(u.inch) * K) / r_min
         self.myeqns.additem(
-            "Slenderness",
+            "Slenderness x",
             [
-                "Slenderness",
-                Slenderness,
-                f"({L} * {K})/{r_min}",
-                "(L * K)/r_min",
+                "Slenderness x",
+                self.slenderness_x,
+                f"({Lx} * {Kx})/{r_x}",
+                r"$$\frac{(L_x * K_x)}{r_x}$$",
                 "E3-2",
             ],
         )
+
+        self.myeqns.additem(
+            "Slenderness y",
+            [
+                "Slenderness y",
+                self.slenderness_y,
+                f"({Ly} * {Ky})/{r_y}",
+                r"$$\frac{(L_y * K_y)}{r_y}$$",
+                "E3-2",
+            ],
+        )
+        if self.slenderness_y > self.slenderness_x:
+            self.r_min = r_y
+            self.L = Ly
+            self.K = Ky
+            self.myeqns.maxes.append("Slenderness y")
+        else:
+            self.r_min = r_x
+            self.L = Lx
+            self.K = Kx
+            self.myeqns.maxes.append("Slenderness x")
+
+        self.slenderness = max(self.slenderness_x, self.slenderness_y)
 
         Slenderness_check = 4.71 * sqrt(E / F_y)
         self.myeqns.additem(
@@ -859,47 +987,49 @@ class Member:
                 "Slenderness check",
                 Slenderness_check,
                 f"4.71 * sqrt({E}/{F_y})",
-                "4.71 * sqrt(E/F_y)",
+                r"$$4.71 * \sqrt{\frac{E}{F_y}}$$",
                 "E3-2,E3-3",
             ],
         )
 
         from math import pi
 
-        F_e = (pi ** 2 * E) / Slenderness ** 2
+        F_e = (pi ** 2 * E) / self.slenderness ** 2
         self.myeqns.additem(
             "F_e",
             [
                 "F_e",
                 F_e,
-                f"(({pi:.3}**2 * {E})/ {Slenderness}**2)",
-                "((pi**2 * E)/ Slenderness**2)",
+                f"(({pi:.3}^2 * {E})/ {self.slenderness}^2)",
+                r"$$(\frac{(\pi^2 * E)}{Slenderness^2})$$",
                 "E3-2,E3-3",
             ],
         )
+        # Added as check
+        # self.myeqns.greens.append("F_e")
 
-        P_cr = (pi ** 2 * E * A_g) / Slenderness ** 2
+        P_cr = (pi ** 2 * E * A_g) / self.slenderness ** 2
         self.P_cr = P_cr
         self.myeqns.additem(
             "P_cr",
             [
                 "P_cr",
                 P_cr,
-                f"(({pi:.3}**2 * {E} * {A_g})/ {Slenderness}**2)",
-                "((pi**2 * E * A)/ Slenderness**2)",
+                f"(({pi:.3}^2 * {E} * {A_g})/ {self.slenderness}^2)",
+                r"$$(\frac{(\pi^2 * E * A)}{Slenderness^2})$$",
                 "E3-2,E3-3",
             ],
         )
 
-        if Slenderness > Slenderness_check:
+        if self.slenderness > Slenderness_check:
             F_cr = 0.877 * F_e
             self.myeqns.additem(
                 "F_cr",
                 [
-                    "Inelastic Critical Stress",
+                    "F_cr",
                     F_cr,
                     f"0.877 * {F_e}",
-                    "0.877 * F_e",
+                    "$$0.877 * F_e$$",
                     "E3-3",
                 ],
             )
@@ -908,10 +1038,10 @@ class Member:
             self.myeqns.additem(
                 "F_cr",
                 [
-                    "Elastic Critical Stress",
+                    "F_cr",
                     F_cr,
-                    f"0.658 **({F_y}/{F_e}) * {F_y}",
-                    "0.658 **(F_y/F_e) * F_y",
+                    f"(0.658 ^({F_y}/{F_e}) * {F_y})",
+                    r"$$(0.658^{(\frac{F_y}{F_e})} * F_y)$$",
                     "E3-2",
                 ],
             )
@@ -924,7 +1054,7 @@ class Member:
                 "P_n",
                 P_n,
                 f"{F_cr} * {A_g}",
-                "F_cr * A_g",
+                r"$$(F_{cr} * A_g)$$",
                 "E3-2",
             ],
         )
@@ -937,10 +1067,18 @@ class Member:
                 "P_n_LRFD",
                 P_n_LRFD,
                 f"{P_n} * {phi}",
-                "P_n * phi",
-                " ",
+                r"$$P_n * \phi$$",
+                "a",
             ],
         )
+        try:
+            if P_n_LRFD > self.LRFD_max:
+                self.myeqns.greens.append("P_n_LRFD")
+            else:
+                self.myeqns.reds.append("P_n_LRFD")
+        except:
+            print("theres none")
+
         omega = 1.67
         P_n_ASD = P_n / omega
         self.myeqns.additem(
@@ -949,11 +1087,17 @@ class Member:
                 "P_n_ASD",
                 P_n_ASD,
                 f"{P_n} / {omega}",
-                "P_n / omega",
-                " ",
+                r"$$\frac{P_n}{\omega}$$",
+                "a",
             ],
         )
-        # if self.slenderness
+        try:
+            if P_n_ASD > self.ASD_max:
+                self.myeqns.greens.append("P_n_ASD")
+            else:
+                self.myeqns.reds.append("P_n_ASD")
+        except:
+            pass
 
     def available_strength(self, L1, L2, K1, K2):
         r_x = self.rx
@@ -972,10 +1116,19 @@ class Member:
                 "factor of safety",
                 factor_of_safety,
                 f"({P_cr} / {myload})",
-                "(P_cr / myload)",
-                " ",
+                r"$\frac({P_{cr}}{myload})$",
+                "a",
             ],
         )
+
+    def slenderness_hss(self):
+        print(self.b__tdes)
+        print(1.4 * sqrt(self.E / self.F_y))
+        if self.b__tdes <= 1.4 * sqrt(self.E / self.F_y):
+
+            print("Not slender")
+        else:
+            print("Slender")
 
     def local_stability(self):
         E = self.E
@@ -989,6 +1142,10 @@ class Member:
         second = 0.56 * sqrt(E / F_y)
         third = (self.ddet - 2 * self.kdes) / tw
         print(first, second, third)
+
+    def add_loads(self, loads):
+        self.LRFD_max = loads.LRFD_max
+        self.ASD_max = loads.ASD_max
 
 
 class purlin:
@@ -1004,3 +1161,30 @@ class truss:
         self.y = convert_to_float(y) * u.foot
         self.length = convert_to_float(length) * u.foot
         self.spacing = spacing * u.feet
+
+
+class Frame:
+    def __init__(self, H, L):
+        self.H = H * u.foot
+        self.L = L * u.foot
+
+    def find_g(self, A, B):
+        H = self.H
+        L = self.L
+
+        if A == "Pin":
+            g_a = 10
+        elif A == "Fixed":
+            g_a = 1
+        else:
+            g_a = (A[0] / H) / (A[1] / L)
+
+        if B == "Pin":
+            g_b = 10
+        elif B == "Fixed":
+            g_b = 1
+        else:
+            g_b = (B[0] / H) / (B[1] / L)
+
+        print(f"g_a = {g_a}")
+        print(f"g_b = {g_b}")
