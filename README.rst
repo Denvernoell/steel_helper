@@ -15,9 +15,12 @@ Overview
 ..     * - package
 ..       - | |version| |wheel| |supported-versions| |supported-implementations|
 ..         | |commits-since|
-.. .. |docs| image:: https://readthedocs.org/projects/python-steel-helper/badge/?style=flat
-..     :target: https://readthedocs.org/projects/python-steel-helper
-..     :alt: Documentation Status
+
+.. https://readthedocs.org/projects/steel-helper
+
+.. |docs| image:: https://readthedocs.org/projects/steel-helper/badge/?style=flat
+    :target: https://steel-helper.readthedocs.io/
+    :alt: Documentation Status
 
 .. .. |travis| image:: https://api.travis-ci.com/denvernoell/python-steel-helper.svg?branch=master
 ..     :alt: Travis-CI Build Status
@@ -59,7 +62,9 @@ Overview
 
 .. end-badges
 
-Python module to help calculaterequirements for design of steel structures
+Python module to help calculate requirements for design of steel structures.
+
+* Uses equations and values from AISC Steel Construction Manual Fifteenth Edition
 
 * Free software: GNU Lesser General Public License v3 or later (LGPLv3+)
 
@@ -79,8 +84,7 @@ Documentation
 =============
 
 
-https://python-steel-helper.readthedocs.io/
-
+https://steel-helper.readthedocs.io/en/latest/index.html
 
 .. Development
 .. ===========
